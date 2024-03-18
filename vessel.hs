@@ -21,3 +21,6 @@ unloadV :: Vessel -> String -> Vessel  -- responde un barco al que se le han des
 
 netV :: Vessel -> Int                  -- responde el peso neto en toneladas de los contenedores en el barco
 
+
+
+
