@@ -12,5 +12,6 @@ con4 = newC "Japon" 3
 
 ciudadComparar = "Brasil"
 
-sta1 = Sta [con1,con2,con3,con4] 10
+sta1 = newS 10
+sta2 = stackS sta1 con1 
 
