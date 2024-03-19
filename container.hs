@@ -12,4 +12,3 @@ destinationC (Con ciudad _) = ciudad
 netC :: Container -> Int             -- responde el peso en toneladas del contenedor
 netC (Con _ peso) = peso
 
-c1 = newC "Buenos Aires" 2

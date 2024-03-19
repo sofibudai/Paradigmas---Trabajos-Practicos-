@@ -18,16 +18,22 @@ stackS (Sta containers capacidad) contenedor                     -- si la pila n
     | otherwise = error " El Stack esta lleno"                    -- si la pila esta llena, devuelve un error
     
 netS :: Stack -> Int                          -- responde el peso neto de los contenedores en la pila
-netS (Sta contenedores _) = sum (map netC contenedores)          -- sumatoria de los pesos de los contenedores en la pila
+netS (Sta contenedores _) = sum (map netC contenedores)          
 
 holdsS :: Stack -> Container -> Route -> Bool -- indica si la pila puede aceptar el contenedor considerando las ciudades en la ruta
 holdsS (Sta contenedores _) contenedor ruta = inOrderR ruta (destinationC contenedor) (destinationC (head contenedores))
 
 ultimaCiudad :: [Container] -> String         -- funcion auxiliar que devuelve la ciudad correspondiente al contenedor que se ubica en el tope de la pila 
-ultimaCiudad = destinationC . last 
+ultimaCiudad contenedores = destinationC (last contenedores)    -- usar Stack envez de [Container]
 
 popS :: Stack -> String -> Stack              -- quita del tope los contenedores con destino en la ciudad indicada 
+popS (Sta contenedores capacidad) ciudad | ultimaCiudad contenedores == ciudad = popS (Sta (init contenedores) capacidad) ciudad
+                                         | otherwise = Sta contenedores capacidad 
 
-popS last (Sta [contenedor] _) | ultimaCiudad contenedor == ciudad
-                               | otherwise destinationC contenedor /= ciudad = Sta 
+-- popS :: Stack -> String -> Stack 
+-- popS (Sta contenedores capacidad) ciudad | LastCity == ciudad = popS finalStack ciudad
+--                                          | otherwise = Sta contenedores capacidad 
+--     where 
+--          lastCity = ultimaCiudad contenedores
+--          finalStack = Sta (init contenedores) capacidad
 

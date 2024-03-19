@@ -1,4 +1,3 @@
-
 module Route ( Route, newR, inOrderR )
     where
 

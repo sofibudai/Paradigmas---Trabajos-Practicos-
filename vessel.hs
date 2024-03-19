@@ -8,7 +8,7 @@ import Route
 data Vessel = Ves [ Stack ] Route deriving (Eq, Show)
 
 newV :: Int -> Int -> Route -> Vessel  -- construye un barco según una cantidad de bahias, la altura de las mismas y una ruta
-newV qBahias altura ruta = Ves 
+newV = Ves 
  
 freeCellsV :: Vessel -> Int            -- responde la celdas disponibles en el barco
 
