@@ -12,3 +12,5 @@ sacarTonelada = read (last lista) :: Int --m castear las toneladas de la lista
 
 toneladas = [1,2,3,4]
 suma = sum toneladas
+
+popS (Sta contenedores capacidad) ciudad = Sta (filter (\cont -> destinationC cont /= ciudad) contenedores) capacidad
