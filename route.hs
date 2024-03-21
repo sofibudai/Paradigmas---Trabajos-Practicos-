@@ -14,4 +14,3 @@ inOrderR :: Route -> String -> String -> Bool  -- indica si la primer ciudad con
 inOrderR (Rou ciudades) ciudad1 ciudad2 = elemIndex ciudad1 ciudades <= elemIndex ciudad2 ciudades  
 
 
--- manejar errores en inOrderR ?

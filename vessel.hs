@@ -14,7 +14,7 @@ freeCellsV :: Vessel -> Int            -- responde la celdas disponibles en el b
 
 
 loadV :: Vessel -> Container -> Vessel -- carga un contenedor en el barco
-
+-- usar stackS y holdS
 
 unloadV :: Vessel -> String -> Vessel  -- responde un barco al que se le han descargado los contenedores que podían descargarse en la ciudad
 

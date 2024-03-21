@@ -42,6 +42,8 @@ pesoNeto = netS sXX
 noHold = holdsS sXL cBue rutaLarga
 holdStackVacio = holdsS sLL cMdq rutaLarga
 
+stackReventado = holdsS sXX cQeq rutaLarga
+
 t = [ destinationC cMdq == "MDQ", -- "C1 destino de un contenedor"
       inOrderR rutaLarga bhi qeq, -- "R1 enOrden"
       inOrderR rutaLarga bhi rsl, -- "R2 enOrden"
