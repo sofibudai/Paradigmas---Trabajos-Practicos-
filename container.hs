@@ -1,10 +1,13 @@
 module Container ( Container, newC, destinationC, netC )
  where
+import Text.PrettyPrint (TextDetails(Str))
 
 data Container = Con String Int deriving (Eq, Show)
 
 newC :: String -> Int -> Container   -- construye un Contenedor dada una ciudad de destino y un peso en toneladas
-newC ciudad peso = Con ciudad peso   -- newC = Con
+newC ciudad peso
+    | peso > 0 = Con ciudad peso
+    | otherwise = error "El peso debe ser mayor a 0"
 
 destinationC :: Container -> String  -- responde la ciuda destino del contenedor
 destinationC (Con ciudad _) = ciudad 

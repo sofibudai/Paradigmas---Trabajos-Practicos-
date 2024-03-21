@@ -21,7 +21,9 @@ netS :: Stack -> Int                          -- responde el peso neto de los co
 netS (Sta contenedores _) = sum (map netC contenedores)          
 
 holdsS :: Stack -> Container -> Route -> Bool -- indica si la pila puede aceptar el contenedor considerando las ciudades en la ruta
-holdsS (Sta contenedores _) contenedor ruta = inOrderR ruta (destinationC contenedor) (destinationC (head contenedores))
+holdsS (Sta contenedores _) contenedor ruta  
+    |
+    |otherwise = inOrderR ruta (destinationC contenedor) (destinationC (head contenedores))  -- manejar error
 
 ultimaCiudad :: [Container] -> String         -- funcion auxiliar que devuelve la ciudad correspondiente al contenedor que se ubica en el tope de la pila 
 ultimaCiudad contenedores = destinationC (last contenedores)    -- usar Stack envez de [Container]
@@ -30,10 +32,4 @@ popS :: Stack -> String -> Stack              -- quita del tope los contenedores
 popS (Sta contenedores capacidad) ciudad | ultimaCiudad contenedores == ciudad = popS (Sta (init contenedores) capacidad) ciudad
                                          | otherwise = Sta contenedores capacidad 
 
--- popS :: Stack -> String -> Stack 
--- popS (Sta contenedores capacidad) ciudad | LastCity == ciudad = popS finalStack ciudad
---                                          | otherwise = Sta contenedores capacidad 
---     where 
---          lastCity = ultimaCiudad contenedores
---          finalStack = Sta (init contenedores) capacidad
 
