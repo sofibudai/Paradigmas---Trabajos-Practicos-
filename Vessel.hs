@@ -22,10 +22,11 @@ loadV (Ves ss ruta) contenedor = Ves (updateV ss ruta contenedor) ruta
 --holdS (stack contenedor ruta) = Ves (stackS stack contenedor) ruta
 
 unloadV :: Vessel -> String -> Vessel  -- responde un barco al que se le han descargado los contenedores que podían descargarse en la ciudad
-
+-- descarga los contenedores que corresponden a la ciudad indicada y devuelve el barco sin esos contenedores
+unloadV 
 
 netV :: Vessel -> Int                  -- responde el peso neto en toneladas de los contenedores en el barco
-
+netV (Ves stacks _) = sum (map netS stacks)
 
 
 
