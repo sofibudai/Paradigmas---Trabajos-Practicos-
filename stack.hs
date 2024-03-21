@@ -10,10 +10,10 @@ newS :: Int -> Stack                          -- construye una Pila con la capac
 newS  = Sta []
 
 freeCellsS :: Stack -> Int                    -- responde las celdas disponibles en la pila
-freeCellsS (Sta containers capacidad) = capacidad - length containers
+freeCellsS (Sta contenedores capacidad) = capacidad - length contenedores
 
 stackS :: Stack -> Container -> Stack         -- apila el contenedor indicado en la pila
-stackS (Sta containers capacidad) contenedor = Sta (contenedor:containers) capacidad
+stackS (Sta contenedores capacidad) contenedor = Sta (contenedor:contenedores) capacidad
     
 netS :: Stack -> Int                          -- responde el peso neto de los contenedores en la pila
 netS (Sta contenedores _) = sum (map netC contenedores)          

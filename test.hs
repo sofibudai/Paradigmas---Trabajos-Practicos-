@@ -6,7 +6,7 @@ import Container
 
 import Control.Exception
 import System.IO.Unsafe
-import Stack (netS)
+
 
 
 mdq = "MDQ"
@@ -56,7 +56,7 @@ t = [ destinationC cMdq == "MDQ", -- "C1 destino de un contenedor"
       testF noHold,
       True ]
 
-testF :: Show a => a -> Bool
+testF :: Show a => a -> Bool                          -- test for failure: ponerle cosas que van a dar error 
 testF action = unsafePerformIO $ do
     result <- tryJust isException (evaluate action)
     return $ case result of
