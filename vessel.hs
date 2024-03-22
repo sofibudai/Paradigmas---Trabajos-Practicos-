@@ -11,7 +11,7 @@ newV :: Int -> Int -> Route -> Vessel  -- construye un barco según una cantidad
 newV bahias altura ruta = Ves (replicate bahias (newS altura)) ruta
  
 freeCellsV :: Vessel -> Int            -- responde la celdas disponibles en el barco
-freeCellsV (Ves stacks _) = 0--sum length Ves (stacks _)
+freeCellsV (Ves stacks _) = sum (map freeCellsS stacks)     
 
 updateV :: [Stack] -> Route -> Container -> [Stack]
 updateV (elemento:stacks) ruta contenedor | holdsS elemento contenedor ruta = (stackS elemento contenedor) : stacks
@@ -27,6 +27,7 @@ unloadV (Ves stacks ruta) ciudad = Ves stacks ruta
  
 netV :: Vessel -> Int                  -- responde el peso neto en toneladas de los contenedores en el barco
 netV (Ves stacks _) = sum (map netS stacks) 
+
 
 
 
