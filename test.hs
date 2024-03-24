@@ -16,8 +16,6 @@ bAlto = newV 1 2 rutaLarga
 bAltoX = loadV bAlto cMdq -}
 
 
-
-
 pesoNeto = netS sXX
 
 holdStackVacio = holdsS sLL cMdq rutaLarga
@@ -76,7 +74,7 @@ cQeq = newC qeq 9
 
 cMdq16 = newC mdq 16
 
-sLL = newS 3         -- pila
+sLL = newS 3           -- pila
 sXL = stackS sLL cMdq  -- stack
 sXX = stackS sXL cMdq
 sPasado = stackS sXX cMdq
@@ -89,14 +87,12 @@ t = [ destinationC cMdq == "MDQ",
       netC cBue == 7,
       stackDisponible == True, 
       stackSobrePeso == False,
-      inOrderR rutaLarga bhi qeq == True,
-      inOrderR rutaLarga mdq bhi == False, 
-      
+      inOrderR rutaLarga qeq bhi == True,
+      inOrderR rutaLarga bhi qeq == False, 
+      freeCells sXL == 2,
 
       testF cVacio, 
       testF cNegativo, 
-      -- caso donde pongo un string vacio o un numero en la ciudad de contenedor? 
-      -- caso donde pongo un string en el peso del contenedor? 
       testF rVacia, 
       testF sCeroAlt,
       testF sAltNeg,      
