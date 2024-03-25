@@ -21,7 +21,6 @@ updateV (elemento:stacks) ruta contenedor
 
 loadV :: Vessel -> Container -> Vessel -- carga un contenedor en el barco
 loadV (Ves stacks ruta) contenedor = Ves (updateV stacks ruta contenedor) ruta
---holdS (stack contenedor ruta) = Ves (stackS stack contenedor) ruta
 
 unloadV :: Vessel -> String -> Vessel  -- responde un barco al que se le han descargado los contenedores que podían descargarse en la ciudad
 unloadV (Ves stacks ruta) ciudad = Ves (map (`popS` ciudad) stacks) ruta
