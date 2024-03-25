@@ -112,7 +112,7 @@ t = [ destinationC cMdq == "MDQ",
       vesLugar == 1,
       vesLleno == 0,
       vesSobreCargado == 0,
-    
+      
 
       testF cVacio, 
       testF cNegativo, 
