@@ -1,54 +1,27 @@
 import Stack 
 import Route 
---import Vessel
-import Data.List (elemIndex)
 import Container 
 import Vessel
 
 import Control.Exception
 import System.IO.Unsafe
+import Data.List (elemIndex)
 
 
-{- bS = newV 1 1 rutaLarga
+bS = newV 1 1 rutaLarga
 bChato = newV 2 1 rutaLarga
 bChatoX = loadV bChato cMdq
 bAlto = newV 1 2 rutaLarga
-bAltoX = loadV bAlto cMdq -}
-
-
-pesoNeto = netS sXX
+bAltoX = loadV bAlto cMdq 
 
 holdStackVacio = holdsS sLL cMdq rutaLarga
 
 stackReventado = holdsS sXX cQeq rutaLarga
 
-vesVacio = newV 0 0 rutaLarga  -- barco con ningun lugar
-vesDos = newV 2 2 rutaLarga    -- barco con 2 bahias de altura 2. 4 celdas disponibles
-
-vesCargado = loadV vesDos cMdq
-vesCargado2 = loadV vesCargado cMdq
-vesCargado3 = loadV vesCargado2 cMdq
-vesCargado4 = loadV vesCargado3 cMdq
-vesCargado5 = loadV vesCargado4 cMdq
 stackAlturaNegativo = newS (-1) 
 
-
-{- t = [ destinationC cMdq == "MDQ", -- "C1 destino de un contenedor"      -- hacer nuestros propios test 
-      inOrderR rutaLarga bhi qeq, -- "R1 enOrden"
-      inOrderR rutaLarga bhi rsl, -- "R2 enOrden"
-      inOrderR rutaLarga qeq mdq, -- "R3 enOrden"
-      inOrderR rutaLarga qeq rsl, -- "R4 enOrden"
-      netV vesVacio == 0,
-      freeCellsV vesDos == 4, 
-      netV vesVacio == 0,
-
-      testF cVacio,
-      testF rutaVacia,
-      testF noHold,               -- no puede dar error. da siempre o true o false
-      True ] -}
-
       
--------------------------------------------------------
+----------------------------------------------------------------------------------------------------------------------------------------------------
 
 mdq = "MDQ"
 rsl = "RSL"
@@ -57,39 +30,89 @@ bue = "BUE"
 qeq = "QEQ"
 mvd = "MVD"
 
-rutaLarga = newR [ bhi, qeq, mdq, bue, rsl ]
+cMdq = newC mdq 5
+cBue = newC bue 7
+cQeq = newC qeq 9
+cBhi = newC bhi 3
+cMdq16 = newC mdq 16
+
+sLL = newS 3           -- pila
+sXL = stackS sLL cMdq  -- stack
+sXX = stackS sXL cMdq
+sSinLugar = stackS sXX cMdq
+
+sV0 = newS 2
+sV1 = stackS sV0 cBue
+sV2 = stackS sV1 cQeq
+
+rutaLarga = newR [ bhi, qeq, mdq, bue, rsl ]     -- ordenada del primer destino al ultimo de izq a derecha 
 rutaVacia = newR []
 
 cVacio = newC bue 0
 cNegativo = newC bue (-2)
+
+pesoNetoC = netC cBue
 
 rVacia = newR []
 
 sCeroAlt = newS 0
 sAltNeg = newS (-1)
 
-cMdq = newC mdq 5
-cBue = newC bue 7
-cQeq = newC qeq 9
+rutasEnOrden = inOrderR rutaLarga bhi qeq
+rutasNoEnOrden = inOrderR rutaLarga qeq bhi
 
-cMdq16 = newC mdq 16
+celdasLibresStack = freeCellsS sXL 
+stackSinLugar = freeCellsS sSinLugar 
 
-sLL = newS 3           -- pila
-sXL = stackS sLL cMdq  -- stack
-sXX = stackS sXL cMdq
-sPasado = stackS sXX cMdq
+pesoNetoStack = netS sXX 
 
 stackSobrePeso = holdsS sXL cMdq16 rutaLarga
 stackDisponible = holdsS sXL cMdq rutaLarga
 
+ultCiudadStack = ultimaCiudad [cMdq,cBue,cQeq]
+
+sacarCon = popS sV2 qeq
+noSaca1 = popS sV2 mvd
+noSaca2 = popS sV2 bue
+
+vesSinBahias = newV 0 0 rutaLarga  -- barco con ningun lugar
+vesDos = newV 2 2 rutaLarga    -- barco con 2 bahias de altura 2. 4 celdas disponibles
+
+vesCargado = loadV vesDos cMdq
+vesCargado2 = loadV vesCargado cQeq
+vesCargado3 = loadV vesCargado2 cMdq
+vesCargado4 = loadV vesCargado3 cQeq
+vesSobreCargado5 = loadV vesCargado4 cMdq
+
+vesSinEseContenedor = unloadV vesCargado4 bue
+vesCargado4Descargado = unloadV vesCargado4 mdq
+vesCargado4Descargado2 = unloadV vesCargado4Descargado qeq
+
+vesVacio = freeCellsV vesDos
+vesLugar = freeCellsV vesCargado3
+vesLleno = freeCellsV vesCargado4
+vesSobreCargado = freeCellsV vesSobreCargado5
+
+
 
 t = [ destinationC cMdq == "MDQ",
-      netC cBue == 7,
+      pesoNetoC == 7,
+      rutasEnOrden == True,     
+      rutasNoEnOrden == False,  
+      celdasLibresStack == 2,
+      stackSinLugar == 0,
+      pesoNetoStack == 10, 
       stackDisponible == True, 
       stackSobrePeso == False,
-      inOrderR rutaLarga qeq bhi == True,
-      inOrderR rutaLarga bhi qeq == False, 
-      freeCells sXL == 2,
+      ultCiudadStack == "QEQ",
+      sacarCon == sV1,
+      noSaca1 == sV2,
+      noSaca2 == sV2,
+      vesVacio == 4,
+      vesLugar == 1,
+      vesLleno == 0,
+      vesSobreCargado == 0,
+    
 
       testF cVacio, 
       testF cNegativo, 
@@ -97,6 +120,9 @@ t = [ destinationC cMdq == "MDQ",
       testF sCeroAlt,
       testF sAltNeg,      
     True ]
+-- hacer un print de la lista t pero enumerando los resultados de cada test
+
+
 
 
 testF :: Show a => a -> Bool                          -- cambiar la funcion para ver como probamos nosotros test for failure: ponerle cosas que van a dar error 
@@ -109,4 +135,3 @@ testF action = unsafePerformIO $ do
         isException :: SomeException -> Maybe ()
         isException _ = Just () 
 
--- testear holds cuando no hay contenedores y ademas hacer que solo admita que el primer contenedor sea del destino que esta ultimo en la lista

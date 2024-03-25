@@ -1,6 +1,5 @@
 module Container ( Container, newC, destinationC, netC )
  where
-import Text.PrettyPrint (TextDetails(Str))
 
 data Container = Con String Int deriving (Eq, Show)
 

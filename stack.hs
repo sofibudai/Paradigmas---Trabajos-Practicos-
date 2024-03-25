@@ -1,7 +1,7 @@
 module Stack ( Stack, newS, freeCellsS, stackS, netS, ultimaCiudad, holdsS, popS )
  where
 
-import Container
+import Container   
 import Route
 
 data Stack = Sta [ Container ] Int deriving (Eq, Show)  -- int: cantidad de contenedores de un stack en particular 
@@ -13,7 +13,7 @@ freeCellsS :: Stack -> Int                    -- responde las celdas disponibles
 freeCellsS (Sta contenedores capacidad) = capacidad - length contenedores
 
 stackS :: Stack -> Container -> Stack         -- apila el contenedor indicado en la pila
-stackS (Sta contenedores capacidad) contenedor = Sta (contenedor:contenedores) capacidad
+stackS (Sta contenedores capacidad) contenedor = Sta (contenedores ++ [contenedor]) capacidad
     
 netS :: Stack -> Int                          -- responde el peso neto de los contenedores en la pila
 netS (Sta contenedores _) = sum (map netC contenedores)          
@@ -42,7 +42,9 @@ ultimaCiudad :: [Container] -> String         -- funcion auxiliar que responde l
 ultimaCiudad contenedores = destinationC (last contenedores)   
 
 popS :: Stack -> String -> Stack              -- quita del tope los contenedores con destino en la ciudad indicada 
-popS (Sta contenedores capacidad) ciudad | ultimaCiudad contenedores == ciudad = popS (Sta (init contenedores) capacidad) ciudad
-                                         | otherwise = Sta contenedores capacidad 
+popS (Sta [] capacidad) _  = Sta [] capacidad
+popS (Sta contenedores capacidad) ciudad 
+    | ultimaCiudad contenedores == ciudad  = popS (Sta (init contenedores) capacidad) ciudad
+    | otherwise = Sta contenedores capacidad
 
 
