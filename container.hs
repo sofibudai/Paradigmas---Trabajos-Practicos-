@@ -3,12 +3,12 @@ module Container ( Container, newC, destinationC, netC )
 
 data Container = Con String Int deriving (Eq, Show)
 
-newC :: String -> Int -> Container   -- construye un Contenedor dada una ciudad de destino y un peso en toneladas
+newC :: String -> Int -> Container   
 newC ciudad peso | peso > 0 = Con ciudad peso
 
-destinationC :: Container -> String  -- responde la ciuda destino del contenedor
+destinationC :: Container -> String 
 destinationC (Con ciudad _) = ciudad 
 
-netC :: Container -> Int             -- responde el peso en toneladas del contenedor
+netC :: Container -> Int            
 netC (Con _ peso) = peso
 

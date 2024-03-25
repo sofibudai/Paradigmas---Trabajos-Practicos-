@@ -7,7 +7,7 @@ import Control.Exception
 import System.IO.Unsafe
 import Data.List (elemIndex)
 
--- Ciudade
+-- Ciudades
 mdq = "MDQ"
 rsl = "RSL"
 bhi = "BHI"
@@ -64,11 +64,12 @@ rutasNoEnOrden = inOrderR rutaLarga qeq bhi
 vesSinBahias = newV 0 0 rutaLarga  
 vesDos = newV 2 2 rutaLarga        
 vesTres = newV 3 3 rutaLarga          
-vesCuatro = newV 2 3 rutaLarga       
+vesCuatro = newV 2 3 rutaLarga      
+
 vesDosCargado = loadV vesDos cBue
 vesDosCargado2 = loadV vesDosCargado cMdq
 vesDosCargado3 = loadV vesDosCargado2 cQeq  
-vesDosCargado4 = loadV vesDosCargado3 cBhi
+vesDosCargado4 = loadV vesDosCargado3 cBhi         
 vesDosSobreCargado5 = loadV vesDosCargado4 cBhi
 
 vesCuatroCargado = loadV vesCuatro cBue
@@ -85,7 +86,9 @@ vesLugar = freeCellsV vesDosCargado3
 vesLleno = freeCellsV vesDosCargado4
 vesSobreCargado = freeCellsV vesDosSobreCargado5
 
-cargarVes = loadV vesDos cBue
+netoVes = netV vesDosCargado4
+netoVesVacio = netV vesSinBahias
+
 
 t = [ destinationC cMdq == "MDQ",                    
       pesoNetoC == 7,                                
@@ -105,12 +108,10 @@ t = [ destinationC cMdq == "MDQ",
       vesLugar == 1,                                     
       vesLleno == 0,                                     
       vesSobreCargado == 0,                              
-      cargarVes == vesDosCargado,                        
       vesDosSobreCargado5 == vesDosCargado4,             
       vesCuatroNoCargaPorRuta == vesCuatroCargado3,      
-      vesSinCont4 == vesDosCargado3,                     
-      
-
+      vesSinCont4 == vesDosCargado3,         
+      netoVes == 24,           
       
       testF cVacio,                                     
       testF cNegativo,                                  
