@@ -80,6 +80,8 @@ vesCuatroNoCargaPorRuta = loadV vesCuatroCargado3 cRsl
 vesSinCont4 = unloadV vesDosCargado4 bhi
 vesCargado4Descargado = unloadV vesDosCargado4 mdq
 vesCargado4Descargado2 = unloadV vesCargado4Descargado qeq
+vesNoSaca = unloadV vesCuatroCargado3 rsl
+vesDosNoSaca = unloadV vesDosCargado4 qeq
 
 vesVacio = freeCellsV vesDos
 vesLugar = freeCellsV vesDosCargado3
@@ -87,7 +89,7 @@ vesLleno = freeCellsV vesDosCargado4
 vesSobreCargado = freeCellsV vesDosSobreCargado5
 
 netoVes = netV vesDosCargado4
-netoVesVacio = netV vesSinBahias
+netoVesNulo = netV vesSinBahias
 
 
 t = [ destinationC cMdq == "MDQ",                    
@@ -110,8 +112,11 @@ t = [ destinationC cMdq == "MDQ",
       vesSobreCargado == 0,                              
       vesDosSobreCargado5 == vesDosCargado4,             
       vesCuatroNoCargaPorRuta == vesCuatroCargado3,      
-      vesSinCont4 == vesDosCargado3,         
-      netoVes == 24,           
+      vesSinCont4 == vesDosCargado3,   
+      vesNoSaca == vesCuatroCargado3,  
+      vesDosNoSaca == vesDosCargado4,    
+      netoVes == 24,     
+      netoVesNulo == 0,      
       
       testF cVacio,                                     
       testF cNegativo,                                  
@@ -120,9 +125,6 @@ t = [ destinationC cMdq == "MDQ",
       testF sAltNeg,                                    
     True                                                 
     ]
-
-
-
 
 testF :: Show a => a -> Bool                          
 testF action = unsafePerformIO $ do
