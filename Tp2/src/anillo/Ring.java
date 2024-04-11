@@ -31,64 +31,36 @@ public class Ring {
         Node newNode = new Node(cargo);
         if (this.current == null) {
             newNode.next = newNode;
+            this.current = newNode;
 
         } else {
-            newNode.next = this.current.next;
-            this.current.next = newNode;
+            Node previousNode = this.current;
+            while (previousNode.next != this.current) {
+                previousNode = previousNode.next;
+            }
+            newNode.next = this.current;
+            previousNode.next = newNode;
+            this.current = newNode;
         }
-        this.current = newNode;
         return this;
     }
 
     public Ring remove() {
         if (this.current == null) {
-            throw new IllegalStateException("Cannot remove from an empty Ring");
+            throw new RuntimeException();
         }
         if (this.current.next == this.current) {
             this.current = null;
         } else {
             Node nodeToRemove = this.current;
-            while (this.current.next != nodeToRemove) {
-                this.current = this.current.next;
+            this.current = nodeToRemove.next;
+            Node previousNode = this.current;
+            while (previousNode.next != nodeToRemove) {
+                previousNode = previousNode.next;
             }
-            this.current.next = nodeToRemove.next;
-            this.current = this.current.next;
+            previousNode.next = this.current;
         }
         return this;
     }
 }
 
-
-
-
-
-// public Ring add(Object elem) {
-//        if (this.elem == null) {
-//            this.elem = elem;
-//            this.next = this;
-//        } else {
-//            Ring newRing = new Ring();
-//            newRing.elem = this.elem;
-//            newRing.next = this.next;
-//            this.elem = elem;
-//            this.next = newRing;
-//        }
-//        return this;
-//    }
-
-
-// public Ring remove() {
-//        if (this.elem == null) {
-//            throw new IllegalStateException("Cannot remove from an empty Ring");
-//        }
-//            if (this.next == this) {
-//            this.elem = null;
-//            this.next = null;
-//        } else {
-//            this.next = this.next.remove();
-//            if (this.next == this) {
-//                this.next = null;
-//            }
-//        }
-//            return this;
-//}
