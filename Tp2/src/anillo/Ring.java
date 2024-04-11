@@ -34,16 +34,13 @@ public class Ring {
             this.current = newNode;
 
         } else {
-            newNode.next = this.current.next;
-            this.current.next = newNode;
+            Node previousNode = this.current;
+            while (previousNode.next != this.current) {
+                previousNode = previousNode.next;
+            }
+            newNode.next = this.current;
+            previousNode.next = newNode;
             this.current = newNode;
-            // quiero un print que me muestre el contenido del anillo
-             Node aux = this.current;
-                do {
-                    System.out.println(aux.elem);
-                    aux = aux.next;
-                } while (aux != this.current);
-
         }
         return this;
     }

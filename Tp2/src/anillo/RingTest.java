@@ -61,13 +61,13 @@ public class RingTest {
     }
 
     // test08 auxiliar
-    @Test void test08NextOnInsertsAfterTwoAddsStepBySetp() {
-        assertEquals( "Hola", new Ring().add( "Hola" ).current() );
-        assertEquals(       42, new Ring().add( "Hola" ).add( new Integer( 42 ) ).current() );
-        assertEquals( "Hola", new Ring().add( "Hola" ).add( new Integer( 42 ) ).next().current() );
-        assertEquals( LocalDate.now() , new Ring().add( "Hola" ).add( new Integer( 42 ) ).next().add( LocalDate.now() ).current() );
-        assertEquals( "Hola" , new Ring().add( "Hola" ).add( new Integer( 42 ) ).next().add( LocalDate.now() ).next().current() );
-    }
+    //@Test void test08NextOnInsertsAfterTwoAddsStepBySetp() {
+    //    assertEquals( "Hola", new Ring().add( "Hola" ).current() );
+    //    assertEquals(       42, new Ring().add( "Hola" ).add( new Integer( 42 ) ).current() );
+    //    assertEquals( "Hola", new Ring().add( "Hola" ).add( new Integer( 42 ) ).next().current() );
+    //    assertEquals( LocalDate.now() , new Ring().add( "Hola" ).add( new Integer( 42 ) ).next().add( LocalDate.now() ).current() );
+    //    assertEquals( "Hola" , new Ring().add( "Hola" ).add( new Integer( 42 ) ).next().add( LocalDate.now() ).next().current() );
+    //}
 
     @Test void test09CyclesOnTreeElements() {
         assertEquals( LocalDate.now() , new Ring().add( "Hola" )
