@@ -1,0 +1,14 @@
+<changelist name="Uncommitted_changes_before_Update_at_11_04_2024_14_32_[Changes]1" date="1712856738597" recycled="true" deleted="true">
+  <option name="PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_11_04_2024_14_32_[Changes]1/shelved.patch" />
+  <option name="DESCRIPTION" value="Uncommitted changes before Update at 11/04/2024 14:32 [Changes]" />
+  <binary>
+    <option name="BEFORE_PATH" value="out/production/Tp2/anillo/Ring.class" />
+    <option name="AFTER_PATH" value="out/production/Tp2/anillo/Ring.class" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_11_04_2024_14_32_[Changes]1/Ring.class" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="out/production/Tp2/anillo/RingTest.class" />
+    <option name="AFTER_PATH" value="out/production/Tp2/anillo/RingTest.class" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_11_04_2024_14_32_[Changes]1/RingTest.class" />
+  </binary>
+</changelist>

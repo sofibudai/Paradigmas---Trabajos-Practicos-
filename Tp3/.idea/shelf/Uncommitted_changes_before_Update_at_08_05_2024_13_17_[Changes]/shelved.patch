@@ -1,0 +1,415 @@
+Index: ../Tp2/src/anillo/EmptyRingNode.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/../Tp2/src/anillo/EmptyRingNode.java b/../Tp2/src/anillo/EmptyRingNode.java
+new file mode 100644
+--- /dev/null	(date 1713111501884)
++++ b/../Tp2/src/anillo/EmptyRingNode.java	(date 1713111501884)
+@@ -0,0 +1,24 @@
++package anillo;
++
++public class EmptyRingNode extends RingNode {
++
++    public RingNode next(){
++        throw new RuntimeException();
++    }
++
++    public Object current() {
++        throw new RuntimeException();
++    }
++
++    public RingNode add(Object cargo) {
++        return new NonEmptyRingNode(cargo);
++    }
++
++    public RingNode remove() {
++        throw new RuntimeException();
++    }
++
++    public RingNode getPrevious(RingNode newNode){
++        throw new RuntimeException();
++    }
++}
+Index: ../Tp2/src/anillo/NonEmptyRingNode.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/../Tp2/src/anillo/NonEmptyRingNode.java b/../Tp2/src/anillo/NonEmptyRingNode.java
+new file mode 100644
+--- /dev/null	(date 1713111852354)
++++ b/../Tp2/src/anillo/NonEmptyRingNode.java	(date 1713111852354)
+@@ -0,0 +1,50 @@
++package anillo;
++
++public class NonEmptyRingNode extends RingNode {
++
++    private Object elem;
++    private RingNode next;
++    private RingNode previous;
++
++    public RingNode getPrevious(RingNode newNode) {
++        next = newNode;
++        return this;
++    }
++
++    public NonEmptyRingNode(Object cargo) {
++        next = this;
++        previous = this;
++        elem = cargo;
++    }
++
++    public NonEmptyRingNode(Object cargo, NonEmptyRingNode current) {
++        this.elem = cargo;
++        this.next = current;
++        this.previous = current.previous;
++    }
++
++    public RingNode next() {
++        return this.next;
++    }
++
++    public Object current() {
++        return this.elem;
++    }
++
++    public RingNode add(Object cargo) {
++        RingNode newNode = new NonEmptyRingNode(cargo, this);
++        previous.getPrevious(newNode);
++        this.previous = newNode;
++        return newNode;
++    }
++
++    public RingNode remove() {
++        if (this.next == this) {
++            return new EmptyRingNode();
++        } else {
++            this.next.previous = this.previous;
++            this.previous.next = this.next;
++            return this.next;
++        }
++    }
++}
+\ No newline at end of file
+Index: ../Paradigmas---Trabajos-Practicos-.iml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<module type=\"JAVA_MODULE\" version=\"4\">\n  <component name=\"NewModuleRootManager\" inherit-compiler-output=\"true\">\n    <exclude-output />\n    <content url=\"file://$MODULE_DIR$\">\n      <sourceFolder url=\"file://$MODULE_DIR$/Tp2\" isTestSource=\"false\" />\n    </content>\n    <orderEntry type=\"inheritedJdk\" />\n    <orderEntry type=\"sourceFolder\" forTests=\"false\" />\n  </component>\n</module>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/../Paradigmas---Trabajos-Practicos-.iml b/../Paradigmas---Trabajos-Practicos-.iml
+--- a/../Paradigmas---Trabajos-Practicos-.iml	(revision 97642255de01de1d43e30d495e29bceb81b851c4)
++++ b/../Paradigmas---Trabajos-Practicos-.iml	(date 1712939341295)
+@@ -7,5 +7,21 @@
+     </content>
+     <orderEntry type="inheritedJdk" />
+     <orderEntry type="sourceFolder" forTests="false" />
++    <orderEntry type="module-library">
++      <library name="JUnit5.8.1">
++        <CLASSES>
++          <root url="jar://$MAVEN_REPOSITORY$/org/junit/jupiter/junit-jupiter/5.8.1/junit-jupiter-5.8.1.jar!/" />
++          <root url="jar://$MAVEN_REPOSITORY$/org/junit/jupiter/junit-jupiter-api/5.8.1/junit-jupiter-api-5.8.1.jar!/" />
++          <root url="jar://$MAVEN_REPOSITORY$/org/opentest4j/opentest4j/1.2.0/opentest4j-1.2.0.jar!/" />
++          <root url="jar://$MAVEN_REPOSITORY$/org/junit/platform/junit-platform-commons/1.8.1/junit-platform-commons-1.8.1.jar!/" />
++          <root url="jar://$MAVEN_REPOSITORY$/org/apiguardian/apiguardian-api/1.1.2/apiguardian-api-1.1.2.jar!/" />
++          <root url="jar://$MAVEN_REPOSITORY$/org/junit/jupiter/junit-jupiter-params/5.8.1/junit-jupiter-params-5.8.1.jar!/" />
++          <root url="jar://$MAVEN_REPOSITORY$/org/junit/jupiter/junit-jupiter-engine/5.8.1/junit-jupiter-engine-5.8.1.jar!/" />
++          <root url="jar://$MAVEN_REPOSITORY$/org/junit/platform/junit-platform-engine/1.8.1/junit-platform-engine-1.8.1.jar!/" />
++        </CLASSES>
++        <JAVADOC />
++        <SOURCES />
++      </library>
++    </orderEntry>
+   </component>
+ </module>
+\ No newline at end of file
+Index: ../Tp2/src/anillo/RingNode.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/../Tp2/src/anillo/RingNode.java b/../Tp2/src/anillo/RingNode.java
+new file mode 100644
+--- /dev/null	(date 1713111534941)
++++ b/../Tp2/src/anillo/RingNode.java	(date 1713111534941)
+@@ -0,0 +1,19 @@
++package anillo;
++
++public abstract class RingNode {
++
++    protected RingNode next;
++    protected RingNode previous;
++
++    public abstract RingNode next();
++
++    public abstract Object current();
++
++    public abstract RingNode add(Object cargo);
++
++    public abstract RingNode remove();
++
++    public abstract RingNode getPrevious(RingNode newNode);
++
++}
++
+Index: ../.idea/.name
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/../.idea/.name b/../.idea/.name
+new file mode 100644
+--- /dev/null	(date 1712938657163)
++++ b/../.idea/.name	(date 1712938657163)
+@@ -0,0 +1,1 @@
++Paradigmas---Trabajos-Practicos-Tp2
+\ No newline at end of file
+Index: ../Tp2/src/anillo/Ring.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package anillo;\n\npublic class Ring {\n    private Node current;\n\n    private static class Node {\n        Object elem;\n        Node next;\n\n        Node(Object elem) {\n            this.elem = elem;\n        }\n    }\n\n    public Ring next() {\n        if (this.current != null) {\n            this.current = this.current.next;\n            return this;\n        }\n        throw new RuntimeException();\n    }\n\n    public Object current() {\n        if (this.current != null) {\n            return this.current.elem;\n        }\n        throw new RuntimeException();\n    }\n\n    public Ring add(Object cargo) {\n        Node newNode = new Node(cargo);\n        if (this.current == null) {\n            newNode.next = newNode;\n            this.current = newNode;\n\n        } else {\n            Node previousNode = this.current;\n            while (previousNode.next != this.current) {\n                previousNode = previousNode.next;\n            }\n            newNode.next = this.current;\n            previousNode.next = newNode;\n            this.current = newNode;\n        }\n        return this;\n    }\n\n    public Ring remove() {\n        if (this.current == null) {\n            throw new RuntimeException();\n        }\n        if (this.current.next == this.current) {\n            this.current = null;\n        } else {\n            Node nodeToRemove = this.current;\n            this.current = nodeToRemove.next;\n            Node previousNode = this.current;\n            while (previousNode.next != nodeToRemove) {\n                previousNode = previousNode.next;\n            }\n            previousNode.next = this.current;\n        }\n        return this;\n    }\n}\n\n\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/../Tp2/src/anillo/Ring.java b/../Tp2/src/anillo/Ring.java
+--- a/../Tp2/src/anillo/Ring.java	(revision 97642255de01de1d43e30d495e29bceb81b851c4)
++++ b/../Tp2/src/anillo/Ring.java	(date 1713040446114)
+@@ -1,67 +1,33 @@
+ package anillo;
+ 
+ public class Ring {
+-    private Node current;
++        private RingNode current = new EmptyRingNode();
+ 
+     private static class Node {
+         Object elem;
+         Node next;
+ 
+-        Node(Object elem) {
+-            this.elem = elem;
+-        }
+-    }
++    Node(Object elem) {
++        this.elem = elem;
++    }
++}
+ 
+     public Ring next() {
+-        if (this.current != null) {
+-            this.current = this.current.next;
+-            return this;
+-        }
+-        throw new RuntimeException();
++        current = current.next();
++        return this;
+     }
+ 
+     public Object current() {
+-        if (this.current != null) {
+-            return this.current.elem;
+-        }
+-        throw new RuntimeException();
++        return current.current();
+     }
+ 
+     public Ring add(Object cargo) {
+-        Node newNode = new Node(cargo);
+-        if (this.current == null) {
+-            newNode.next = newNode;
+-            this.current = newNode;
+-
+-        } else {
+-            Node previousNode = this.current;
+-            while (previousNode.next != this.current) {
+-                previousNode = previousNode.next;
+-            }
+-            newNode.next = this.current;
+-            previousNode.next = newNode;
+-            this.current = newNode;
+-        }
++        current = current.add(cargo);
+         return this;
+     }
+ 
+     public Ring remove() {
+-        if (this.current == null) {
+-            throw new RuntimeException();
+-        }
+-        if (this.current.next == this.current) {
+-            this.current = null;
+-        } else {
+-            Node nodeToRemove = this.current;
+-            this.current = nodeToRemove.next;
+-            Node previousNode = this.current;
+-            while (previousNode.next != nodeToRemove) {
+-                previousNode = previousNode.next;
+-            }
+-            previousNode.next = this.current;
+-        }
++        current = current.remove();
+         return this;
+     }
+ }
+-
+-
+Index: ../.idea/uiDesigner.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/../.idea/uiDesigner.xml b/../.idea/uiDesigner.xml
+new file mode 100644
+--- /dev/null	(date 1712944345489)
++++ b/../.idea/uiDesigner.xml	(date 1712944345489)
+@@ -0,0 +1,124 @@
++<?xml version="1.0" encoding="UTF-8"?>
++<project version="4">
++  <component name="Palette2">
++    <group name="Swing">
++      <item class="com.intellij.uiDesigner.HSpacer" tooltip-text="Horizontal Spacer" icon="/com/intellij/uiDesigner/icons/hspacer.svg" removable="false" auto-create-binding="false" can-attach-label="false">
++        <default-constraints vsize-policy="1" hsize-policy="6" anchor="0" fill="1" />
++      </item>
++      <item class="com.intellij.uiDesigner.VSpacer" tooltip-text="Vertical Spacer" icon="/com/intellij/uiDesigner/icons/vspacer.svg" removable="false" auto-create-binding="false" can-attach-label="false">
++        <default-constraints vsize-policy="6" hsize-policy="1" anchor="0" fill="2" />
++      </item>
++      <item class="javax.swing.JPanel" icon="/com/intellij/uiDesigner/icons/panel.svg" removable="false" auto-create-binding="false" can-attach-label="false">
++        <default-constraints vsize-policy="3" hsize-policy="3" anchor="0" fill="3" />
++      </item>
++      <item class="javax.swing.JScrollPane" icon="/com/intellij/uiDesigner/icons/scrollPane.svg" removable="false" auto-create-binding="false" can-attach-label="true">
++        <default-constraints vsize-policy="7" hsize-policy="7" anchor="0" fill="3" />
++      </item>
++      <item class="javax.swing.JButton" icon="/com/intellij/uiDesigner/icons/button.svg" removable="false" auto-create-binding="true" can-attach-label="false">
++        <default-constraints vsize-policy="0" hsize-policy="3" anchor="0" fill="1" />
++        <initial-values>
++          <property name="text" value="Button" />
++        </initial-values>
++      </item>
++      <item class="javax.swing.JRadioButton" icon="/com/intellij/uiDesigner/icons/radioButton.svg" removable="false" auto-create-binding="true" can-attach-label="false">
++        <default-constraints vsize-policy="0" hsize-policy="3" anchor="8" fill="0" />
++        <initial-values>
++          <property name="text" value="RadioButton" />
++        </initial-values>
++      </item>
++      <item class="javax.swing.JCheckBox" icon="/com/intellij/uiDesigner/icons/checkBox.svg" removable="false" auto-create-binding="true" can-attach-label="false">
++        <default-constraints vsize-policy="0" hsize-policy="3" anchor="8" fill="0" />
++        <initial-values>
++          <property name="text" value="CheckBox" />
++        </initial-values>
++      </item>
++      <item class="javax.swing.JLabel" icon="/com/intellij/uiDesigner/icons/label.svg" removable="false" auto-create-binding="false" can-attach-label="false">
++        <default-constraints vsize-policy="0" hsize-policy="0" anchor="8" fill="0" />
++        <initial-values>
++          <property name="text" value="Label" />
++        </initial-values>
++      </item>
++      <item class="javax.swing.JTextField" icon="/com/intellij/uiDesigner/icons/textField.svg" removable="false" auto-create-binding="true" can-attach-label="true">
++        <default-constraints vsize-policy="0" hsize-policy="6" anchor="8" fill="1">
++          <preferred-size width="150" height="-1" />
++        </default-constraints>
++      </item>
++      <item class="javax.swing.JPasswordField" icon="/com/intellij/uiDesigner/icons/passwordField.svg" removable="false" auto-create-binding="true" can-attach-label="true">
++        <default-constraints vsize-policy="0" hsize-policy="6" anchor="8" fill="1">
++          <preferred-size width="150" height="-1" />
++        </default-constraints>
++      </item>
++      <item class="javax.swing.JFormattedTextField" icon="/com/intellij/uiDesigner/icons/formattedTextField.svg" removable="false" auto-create-binding="true" can-attach-label="true">
++        <default-constraints vsize-policy="0" hsize-policy="6" anchor="8" fill="1">
++          <preferred-size width="150" height="-1" />
++        </default-constraints>
++      </item>
++      <item class="javax.swing.JTextArea" icon="/com/intellij/uiDesigner/icons/textArea.svg" removable="false" auto-create-binding="true" can-attach-label="true">
++        <default-constraints vsize-policy="6" hsize-policy="6" anchor="0" fill="3">
++          <preferred-size width="150" height="50" />
++        </default-constraints>
++      </item>
++      <item class="javax.swing.JTextPane" icon="/com/intellij/uiDesigner/icons/textPane.svg" removable="false" auto-create-binding="true" can-attach-label="true">
++        <default-constraints vsize-policy="6" hsize-policy="6" anchor="0" fill="3">
++          <preferred-size width="150" height="50" />
++        </default-constraints>
++      </item>
++      <item class="javax.swing.JEditorPane" icon="/com/intellij/uiDesigner/icons/editorPane.svg" removable="false" auto-create-binding="true" can-attach-label="true">
++        <default-constraints vsize-policy="6" hsize-policy="6" anchor="0" fill="3">
++          <preferred-size width="150" height="50" />
++        </default-constraints>
++      </item>
++      <item class="javax.swing.JComboBox" icon="/com/intellij/uiDesigner/icons/comboBox.svg" removable="false" auto-create-binding="true" can-attach-label="true">
++        <default-constraints vsize-policy="0" hsize-policy="2" anchor="8" fill="1" />
++      </item>
++      <item class="javax.swing.JTable" icon="/com/intellij/uiDesigner/icons/table.svg" removable="false" auto-create-binding="true" can-attach-label="false">
++        <default-constraints vsize-policy="6" hsize-policy="6" anchor="0" fill="3">
++          <preferred-size width="150" height="50" />
++        </default-constraints>
++      </item>
++      <item class="javax.swing.JList" icon="/com/intellij/uiDesigner/icons/list.svg" removable="false" auto-create-binding="true" can-attach-label="false">
++        <default-constraints vsize-policy="6" hsize-policy="2" anchor="0" fill="3">
++          <preferred-size width="150" height="50" />
++        </default-constraints>
++      </item>
++      <item class="javax.swing.JTree" icon="/com/intellij/uiDesigner/icons/tree.svg" removable="false" auto-create-binding="true" can-attach-label="false">
++        <default-constraints vsize-policy="6" hsize-policy="6" anchor="0" fill="3">
++          <preferred-size width="150" height="50" />
++        </default-constraints>
++      </item>
++      <item class="javax.swing.JTabbedPane" icon="/com/intellij/uiDesigner/icons/tabbedPane.svg" removable="false" auto-create-binding="true" can-attach-label="false">
++        <default-constraints vsize-policy="3" hsize-policy="3" anchor="0" fill="3">
++          <preferred-size width="200" height="200" />
++        </default-constraints>
++      </item>
++      <item class="javax.swing.JSplitPane" icon="/com/intellij/uiDesigner/icons/splitPane.svg" removable="false" auto-create-binding="false" can-attach-label="false">
++        <default-constraints vsize-policy="3" hsize-policy="3" anchor="0" fill="3">
++          <preferred-size width="200" height="200" />
++        </default-constraints>
++      </item>
++      <item class="javax.swing.JSpinner" icon="/com/intellij/uiDesigner/icons/spinner.svg" removable="false" auto-create-binding="true" can-attach-label="true">
++        <default-constraints vsize-policy="0" hsize-policy="6" anchor="8" fill="1" />
++      </item>
++      <item class="javax.swing.JSlider" icon="/com/intellij/uiDesigner/icons/slider.svg" removable="false" auto-create-binding="true" can-attach-label="false">
++        <default-constraints vsize-policy="0" hsize-policy="6" anchor="8" fill="1" />
++      </item>
++      <item class="javax.swing.JSeparator" icon="/com/intellij/uiDesigner/icons/separator.svg" removable="false" auto-create-binding="false" can-attach-label="false">
++        <default-constraints vsize-policy="6" hsize-policy="6" anchor="0" fill="3" />
++      </item>
++      <item class="javax.swing.JProgressBar" icon="/com/intellij/uiDesigner/icons/progressbar.svg" removable="false" auto-create-binding="true" can-attach-label="false">
++        <default-constraints vsize-policy="0" hsize-policy="6" anchor="0" fill="1" />
++      </item>
++      <item class="javax.swing.JToolBar" icon="/com/intellij/uiDesigner/icons/toolbar.svg" removable="false" auto-create-binding="false" can-attach-label="false">
++        <default-constraints vsize-policy="0" hsize-policy="6" anchor="0" fill="1">
++          <preferred-size width="-1" height="20" />
++        </default-constraints>
++      </item>
++      <item class="javax.swing.JToolBar$Separator" icon="/com/intellij/uiDesigner/icons/toolbarSeparator.svg" removable="false" auto-create-binding="false" can-attach-label="false">
++        <default-constraints vsize-policy="0" hsize-policy="0" anchor="0" fill="1" />
++      </item>
++      <item class="javax.swing.JScrollBar" icon="/com/intellij/uiDesigner/icons/scrollbar.svg" removable="false" auto-create-binding="true" can-attach-label="false">
++        <default-constraints vsize-policy="6" hsize-policy="0" anchor="0" fill="2" />
++      </item>
++    </group>
++  </component>
++</project>
+\ No newline at end of file
+Index: ../.idea/misc.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<project version=\"4\">\n  <component name=\"ProjectRootManager\" version=\"2\" languageLevel=\"JDK_21\" project-jdk-name=\"openjdk-22\" project-jdk-type=\"JavaSDK\">\n    <output url=\"file://$PROJECT_DIR$/out\" />\n  </component>\n</project>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/../.idea/misc.xml b/../.idea/misc.xml
+--- a/../.idea/misc.xml	(revision 97642255de01de1d43e30d495e29bceb81b851c4)
++++ b/../.idea/misc.xml	(date 1712940115201)
+@@ -1,6 +1,6 @@
+-<?xml version="1.0" encoding="UTF-8"?>
+ <project version="4">
+-  <component name="ProjectRootManager" version="2" languageLevel="JDK_21" project-jdk-name="openjdk-22" project-jdk-type="JavaSDK">
+-    <output url="file://$PROJECT_DIR$/out" />
+-  </component>
+-</project>
+\ No newline at end of file
++    <component name="ProjectRootManager" version="2" languageLevel="JDK_21" project-jdk-name="openjdk-22" project-jdk-type="JavaSDK">
++        <output url="file://$PROJECT_DIR$/out" />
++    </component>
++</project>
++

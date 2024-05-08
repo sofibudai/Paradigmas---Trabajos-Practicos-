@@ -1,0 +1,64 @@
+Index: Tp2/src/anillo/Ring.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package anillo;\n\npublic class Ring {\n    private Node current;\n\n    private static class Node {\n        Object elem;\n        Node next;\n\n        Node(Object elem) {\n            this.elem = elem;\n        }\n    }\n\n    public Ring next() {\n        if (this.current != null) {\n            this.current = this.current.next;\n            return this;\n        }\n        throw new RuntimeException();\n    }\n\n    public Object current() {\n        if (this.current != null) {\n            return this.current.elem;\n        }\n        throw new RuntimeException();\n    }\n\n    public Ring add(Object cargo) {\n        Node newNode = new Node(cargo);\n        if (this.current == null) {\n            newNode.next = newNode;\n            this.current = newNode;\n\n        } else {\n            Node previousNode = this.current;\n            while (previousNode.next != this.current) {\n                previousNode = previousNode.next;\n            }\n            newNode.next = this.current;\n            previousNode.next = newNode;\n            this.current = newNode;\n        }\n        return this;\n    }\n\n    public Ring remove() {\n        if (this.current == null) {\n            throw new RuntimeException();\n        }\n        if (this.current.next == this.current) {\n            this.current = null;\n        } else {\n            Node nodeToRemove = this.current;\n            this.current = nodeToRemove.next;\n            Node previousNode = this.current;\n            while (previousNode.next != nodeToRemove) {\n                previousNode = previousNode.next;\n            }\n            previousNode.next = this.current;\n        }\n        return this;\n    }\n}\n\n\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/Tp2/src/anillo/Ring.java b/Tp2/src/anillo/Ring.java
+--- a/Tp2/src/anillo/Ring.java	(revision 2c7fb59e8e1fabbf4fe32371318aa9b7d38fe56e)
++++ b/Tp2/src/anillo/Ring.java	(date 1712857963637)
+@@ -13,18 +13,18 @@
+     }
+ 
+     public Ring next() {
+-        if (this.current != null) {
+-            this.current = this.current.next;
+-            return this;
+-        }
+-        throw new RuntimeException();
++        if (this.current == null) {
++            throw new RuntimeException();
++        }
++        this.current = this.current.next;
++        return this;
+     }
+ 
+     public Object current() {
+-        if (this.current != null) {
+-            return this.current.elem;
+-        }
+-        throw new RuntimeException();
++        if (this.current == null) {
++            throw new RuntimeException();
++        }
++        return this.current.elem;
+     }
+ 
+     public Ring add(Object cargo) {
+Index: Tp2/src/anillo/RingTest.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package anillo;\n\nimport static org.junit.jupiter.api.Assertions.assertEquals;\nimport static org.junit.jupiter.api.Assertions.assertThrows;\nimport java.time.LocalDate;\nimport org.junit.jupiter.api.Test;\n\npublic class RingTest {\n    @Test void test00NextOnEmpty() {\n        assertThrows( Exception.class, () -> new Ring().next() );\n    }\n\n    @Test void test01CurrentOnEmpty() {\n        assertThrows( Exception.class, () -> new Ring().current() );\n    }\n\n    @Test void test02CurrentAfterAdd() {\n        assertEquals( \"Hola\" , new Ring().add( \"Hola\" ).current() );\n    }\n\n    @Test void test03NextAfterOneAdd() {\n        assertEquals( \"Hola\" , new Ring().add( \"Hola\" ).next().current() );\n    }\n\n    @Test void test04CurrentAfterTwoAdds() {\n        assertEquals( 42, new Ring().add( \"Hola\" )\n                                    .add( new Integer( 42 ) )\n                                    .current() );\n    }\n\n    @Test void test05CurrentAndNextAfterTwoAdds() {\n        assertEquals( \"Hola\", new Ring().add( \"Hola\" )         // agrega un elemento nuevo al anillo: \"hola\"\n                                        .add( new Integer( 42 ) ) // luego agrega otro elemento: 42, en la posicion del \"hola\"\n                                        .next()                         // pasa al siguiente elemento: el \"hola\"\n                                        .current() );                   // devuelve el elemento actual: \"hola\"\n    }\n\n    @Test void test06CyclesWithTwoAdds() {\n        assertEquals( 42, new Ring().add( \"Hola\" )\n                                    .add( new Integer( 42 ) )\n                                    .next()\n                                    .next()\n                                    .current() );\n    }\n\n    @Test void test07InsertsAfterTwoAdds() {\n        assertEquals( LocalDate.now(), new Ring().add( \"Hola\" )\n                                                 .add( new Integer( 42 ) )\n                                                 .next()\n                                                 .add( LocalDate.now() )\n                                                 .current() );\n    }\n\n    @Test void test08NextOnInsertsAfterTwoAdds() {\n        assertEquals( \"Hola\", new Ring().add( \"Hola\" )                     // agrega un elemento nuevo al anillo: \"hola\"\n                                                .add( new Integer( 42 ) )     // luego le agrega otro elemento: 42, en la posicion del \"hola\"\n                                                .next()                             // situado en el 42, pasa a ubicarse sobre el siguiente elemento: el \"hola\"\n                                                .add( LocalDate.now() )             // agrega la fecha en la posicion del \"hola\"\n                                                .next()                             // situado en la fecha, pasa al siguiente elemento: el \"hola\"\n                                                .current() );                       // devuelve el elemento actual: \"hola\"\n    }\n\n    // test08 auxiliar\n    //@Test void test08NextOnInsertsAfterTwoAddsStepBySetp() {\n    //    assertEquals( \"Hola\", new Ring().add( \"Hola\" ).current() );\n    //    assertEquals(       42, new Ring().add( \"Hola\" ).add( new Integer( 42 ) ).current() );\n    //    assertEquals( \"Hola\", new Ring().add( \"Hola\" ).add( new Integer( 42 ) ).next().current() );\n    //    assertEquals( LocalDate.now() , new Ring().add( \"Hola\" ).add( new Integer( 42 ) ).next().add( LocalDate.now() ).current() );\n    //    assertEquals( \"Hola\" , new Ring().add( \"Hola\" ).add( new Integer( 42 ) ).next().add( LocalDate.now() ).next().current() );\n    //}\n\n    @Test void test09CyclesOnTreeElements() {\n        assertEquals( LocalDate.now() , new Ring().add( \"Hola\" )\n                                                  .add( new Integer( 42 ) )\n                                                  .add( LocalDate.now() )\n                                                  .next()\n                                                  .next()\n                                                  .next()\n                                                  .current() );\n    }\n\n    @Test void test10EmptyaRing() {\n        Ring ring = new Ring().add( \"Hola\" ).remove();\n\n        assertThrows( Exception.class, () -> ring.current() );\n        assertThrows( Exception.class, () -> ring.next() );\n    }\n\n    @Test void test11RemoveCurrent() {\n        assertEquals( \"Hola\", new Ring().add( \"Hola\" )           // agrega un elemento nuevo al anillo: \"hola\"\n                                        .add( new Integer( 42 ) )   // luego agrega otro elemento: 42, en la posicion del \"hola\"\n                                        .remove()                         // remueve el elemento actual: 42 y el nuevo elemento actual es \"hola\"\n                                        .current() );                     // devuelve el elemento actual: \"hola\"\n    }\n\n    @Test void test12RemoveNext() {\n        assertEquals( \"Hola\", new Ring().add( \"Hola\" )           // agrega un elemento nuevo al anillo: \"hola\"\n                                                 .add( new Integer( 42 ) )   // luego agrega otro elemento: 42, en la posicion del \"hola\"\n                                                 .add( LocalDate.now() )           // luego agrega otro elemento: la fecha, en la posicion del 42\n                                        .next()                           // pasa al siguiente elemento: el 42\n                                        .remove()\n                                        .current() );                    // remueve el elemento actual: 42 y el nuevo elemento actual es \"hola\"\n    }\n\n    @Test void test13RemoveLast() {\n        assertEquals( LocalDate.now(), new Ring().add( \"Hola\" )\n                                                 .add( new Integer( 42 ) )\n                                                 .add( LocalDate.now() )\n                                                 .next()\n                                                 .next()\n                                                 .remove()\n                                                 .current() );\n    }\n}\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/Tp2/src/anillo/RingTest.java b/Tp2/src/anillo/RingTest.java
+--- a/Tp2/src/anillo/RingTest.java	(revision 2c7fb59e8e1fabbf4fe32371318aa9b7d38fe56e)
++++ b/Tp2/src/anillo/RingTest.java	(date 1712858322708)
+@@ -60,15 +60,6 @@
+                                                 .current() );                       // devuelve el elemento actual: "hola"
+     }
+ 
+-    // test08 auxiliar
+-    //@Test void test08NextOnInsertsAfterTwoAddsStepBySetp() {
+-    //    assertEquals( "Hola", new Ring().add( "Hola" ).current() );
+-    //    assertEquals(       42, new Ring().add( "Hola" ).add( new Integer( 42 ) ).current() );
+-    //    assertEquals( "Hola", new Ring().add( "Hola" ).add( new Integer( 42 ) ).next().current() );
+-    //    assertEquals( LocalDate.now() , new Ring().add( "Hola" ).add( new Integer( 42 ) ).next().add( LocalDate.now() ).current() );
+-    //    assertEquals( "Hola" , new Ring().add( "Hola" ).add( new Integer( 42 ) ).next().add( LocalDate.now() ).next().current() );
+-    //}
+-
+     @Test void test09CyclesOnTreeElements() {
+         assertEquals( LocalDate.now() , new Ring().add( "Hola" )
+                                                   .add( new Integer( 42 ) )
