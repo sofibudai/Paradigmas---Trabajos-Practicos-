@@ -1,0 +1,27 @@
+Hola, abajo se transcribe el enunciado del 3er TP.
+La fecha de entrega es Domingo 26 de mayo, 23:59 hs
+La entrega debe hacerse en el repositorio informado por cada grupo incluyendo los fuentes que implementan el TP y sus correspondientes tests.
+
+Enunciado
+Nuestra consultora, San Andrés Robotics, tras su exitoso desarrollo del Mars Rover y el espectacular lanzamiento de Nemo (*), entusiasmó a la sección de investigación marina del mar negro del mayor contratista de software del mundo, el DoD.
+En esta oportunidad nos pidieron tomar las riendas del proyecto Axiom.
+Axiom es un dron de superficie que incluye la capacidad de desplegar varios metros hacia adelante una sonda con forma de lanza muy larga que describieron con ternura como si fuera un 'delfín que juega con una pelota'.
+Pero muy sensible, al punto de que la sonda sólo se puede desplegar mientras se avanza sin tolerar la más mínima desviación o detenerse. Algo en el casco del dron podría activar la pelota.
+
+El axiom tuvo problemas con el piloto automático, desde entonces se lo controla en forma remota a través de comandos pre-pautados que se envían por un canal seguro pero que puede tener fallas
+Los comandos son:
+- 'i' que le indica al Axiom incrementar la velocidad.
+- 's' que le indica al Axiom disminuir la velocidad.
+- 'l' que le indica al Axiom rotar 90 grados a izquierda.
+- 'r' que le indica al Axiom rotar 90 grados a derecha.
+- 'd' que le indica al Axiom desplegar la sonda.
+- 'f' que le indica al Axiom recuperar la sonda.
+
+Nos toca desarrollar el sistema de posicionamiento de Nemo, para eso se nos pide la capacidad de procesar cada comando y mantener actualizada la velocidad y la actitud del drone en una roseta de Norte, Oeste, Sur y Este.
+El DoD es muy exigente en sus estándares de desarrollo y nos pide por contrato un desarrollo usando la técnica de TDD, con una completa cobertura con casos de test. ¡Se ve que entienden del tema!
+Les preocupa mucho el código repetido, el uso de Ifs, los malos nombres y las responsabilidades entre objetos mal repartidas (**).
+
+Algunas características del drone que tenemos que controlar son que: por ahora no hay problemas con ir demasiado rápido o insistir con detenerse, o repetir los comandos de la sonda. Por otro lado, detenerse o cambiar de dirección mientras la sonda está desplegada es catastrófico.
+
+(*) Los líderes de estos proyectos pueden darles más detalles (Bruno y Julio).
+(**) comentaron algo como que incluye todo lo visto y corregido hasta ahora, porque se va a evaluar también ¯\_(ツ)_/¯
