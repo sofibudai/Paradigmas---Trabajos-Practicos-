@@ -6,20 +6,18 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public  class AxiomTest {
-    @Test public void speedIsZero(){ assertEquals(0, newDrone().getSpeed()); }
+    @Test public void speedIsZero(){ assertEquals(0, newDrone().getSpeed().getValue()); }
 
     @Test public void speedAfterSlowingWhileStatic() {
-        assertEquals(0, newDrone().process("s").getSpeed());
+        assertEquals(0, newDrone().process("s").getSpeed().getValue());
     }
 
     @Test public void speedAfterOneIncrease() {
-        assertEquals(1, newDrone().process("i").getSpeed());
+        assertEquals(1, newDrone().process("i").getSpeed().getValue());
     }
 
     @Test public void speedAfterOneDecrease() {
-        Axiom drone = newDrone();
-        drone.process("i");
-        assertEquals(0, newDrone().process("s").getSpeed());
+        assertEquals(0, newDrone().process("is").getSpeed().getValue());
     }
 
     @Test public void indicatesBearing(){
@@ -34,61 +32,56 @@ public  class AxiomTest {
         assertEquals("West", newDrone().process("l").getBearing());
     }
 
-    // cuales test hacer para los turns?
     @Test public void turnRightTwice() {
-        Axiom drone = newDrone();
-        drone.process("r");
-        assertEquals("South", drone.process("r").getBearing());
+        assertEquals("South", newDrone().process("rr").getBearing());
     }
 
     @Test public void turnRightFourTimes() {
-        Axiom drone = newDrone();
-        drone.process("rrr");
-        assertEquals("North", drone.process("r").getBearing());
+        assertEquals("North", newDrone().process("rrrr").getBearing());
     }
 
     @Test public void turnBothWays() {
-        Axiom drone = newDrone();
-        drone.process("ll");
-        assertEquals("West", drone.process("r").getBearing());
+        assertEquals("West", newDrone().process("llr").getBearing());
     }
 
     @Test public void turnRightWhileMoving() {
-        Axiom drone = newDrone();
-        drone.process("i");
-        assertEquals("East", drone.process("r").getBearing());
+        assertEquals("East", newDrone().process("ir").getBearing());
+    }
+
+    @Test public void  turnAfterRetract(){
+        assertEquals("East", newDrone().process("idfr").getBearing());
     }
 
     @Test public void cannotDeployProbeWhileStatic() {
-        assertThrowsLike("Cannot deploy probe while static", () -> newDrone().process("d"));
+        assertThrowsLike("Cannot deploy probe while static",AssertionError.class, () -> newDrone().process("d"));
     }
 
     @Test public void cannotTurnWhileProbeIsDeployed() {
-        Axiom drone = newDrone();
-        drone.process("id");
-        assertThrowsLike("Cannot turn while probe is deployed", () -> drone.process("r"));
+        assertThrowsLike("Cannot turn while probe is deployed",AssertionError.class, () -> newDrone().process("idr"));
     }
 
     @Test public void cannotStopWhileProbeIsDeployed() {
-        Axiom drone = newDrone();
-        drone.process("id");
-        assertThrowsLike("Cannot stop while probe is deployed", () -> drone.process("s"));
+        assertThrowsLike("Cannot stop while probe is deployed",AssertionError.class, () -> newDrone().process("ids"));
     }
 
     @Test public void increaseSpeedWhileProbeIsDeployed() {
-        Axiom drone = newDrone();
-        drone.process("id");
-        assertEquals(2, drone.process("i").getSpeed());
+        assertEquals(2, newDrone().process("idi").getSpeed().getValue());
     }
 
-    private void assertThrowsLike(String message, Executable codeBlock) {
-        assertEquals(message, assertThrows(Exception.class, codeBlock).getMessage());
+    @Test public void executeNonExistentCommand() {
+        assertThrowsLike("Unknown command: x",IllegalArgumentException.class, () -> newDrone().process("ix"));
+    }
+
+    @Test public void variousSameCommands(){
+        assertEquals(true, newDrone().process("idddddddd").getProbe().isDeployed() );
+    }
+
+    private void assertThrowsLike(String message, Class<? extends Throwable> expectedType, Executable codeBlock) {
+        assertEquals(message, assertThrows(expectedType, codeBlock).getMessage());
     }
 
     private axiom.Axiom newDrone(){
         return  new axiom.Axiom();
     }
-    //preguntar si el newDrone() esta bien ahi
 }
 
-// despues hacer la parte de reducir el codigo

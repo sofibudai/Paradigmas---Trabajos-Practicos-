@@ -1,73 +1,56 @@
 package axiom;
 
+import java.util.Arrays;
+import java.util.List;
+
 public class Axiom {
-    private int speed = 0;
+    private Speed speed = new Speed();
     private Roseta roseta = new Roseta();
     private String bearing = roseta.getCurrentDirection();
-    private boolean deployed = false;
+    private Probe probe = new Probe();
 
-    public int getSpeed() {
+    private static final List<Command> commands = Arrays.asList(
+            new IncreaseSpeedCommand(),
+            new DecreaseSpeedCommand(),
+            new TurnLeftCommand(),
+            new TurnRightCommand(),
+            new DeployCommand(),
+            new RetractCommand()
+    );
+
+    public Speed getSpeed() {
         return speed;
     }
 
     public String getBearing() {
-        bearing = roseta.getCurrentDirection();
         return bearing;
     }
 
-    public boolean deployed() {
-        return deployed;
+    public void setBearing(String bearing) {
+        this.bearing = bearing;
     }
 
-    public void deploy() {
-        if (speed == 0) {
-            throw new RuntimeException("Cannot deploy probe while static");
-        }
-        deployed = true;
+    public Roseta getRoseta() {
+        return roseta;
     }
 
-    public void retract() {
-        deployed = false;
+    public Probe getProbe() {
+        return probe;
     }
 
-
-    public Axiom process(String commands) {
-        for (char command : commands.toCharArray()) {
-            if (command == 'i') {
-                speed += 1;
-            } else if (command == 's') {
-                if (speed > 0 && !deployed) {
-                    speed -= 1;
-                } else if (deployed) {
-                    throw new RuntimeException("Cannot stop while probe is deployed");
-                }
-            } else if (command == 'l' || command == 'r') {
-                if (!deployed) {
-                    if (command == 'l') {
-                        roseta.turnLeft();
-                    } else {
-                        roseta.turnRight();
-                    }
-                    bearing = roseta.getCurrentDirection();
-                } else {
-                    throw new RuntimeException("Cannot turn while probe is deployed");
-                }
-            } else if (command == 'd') {
-                if (speed > 0) {
-                    deployed = true;
-                } else {
-                    throw new RuntimeException("Cannot deploy probe while static");
-                }
-            } else if (command == 'f') {
-                deployed = false;
-            } else {
-                throw new IllegalArgumentException("Invalid command: " + command);
-            }
-        }
+    public Axiom process(String commandsString) {
+        commandsString.chars()
+                .mapToObj(c -> (char) c)
+                .forEach(this::applyCommandToChar);
         return this;
     }
+
+    private void applyCommandToChar(char parameter) {
+        commands.stream()
+                .filter(command -> command.getIdentifier() == parameter)
+                .findFirst()
+                .orElseThrow(() -> new IllegalArgumentException("Unknown command: " + parameter))
+                .execute(this);
+    }
 }
-
-
-
 
