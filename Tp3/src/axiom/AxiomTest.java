@@ -21,35 +21,35 @@ public  class AxiomTest {
     }
 
     @Test public void indicatesBearing(){
-        assertEquals("North", newDrone().getBearing());
+        assertEquals("North", newDrone().getDirection());
     }
 
     @Test public void turnRight() {
-        assertEquals( "East", newDrone().process("r").getBearing());
+        assertEquals( "East", newDrone().process("r").getDirection());
     }
 
     @Test public void turnLeft() {
-        assertEquals("West", newDrone().process("l").getBearing());
+        assertEquals("West", newDrone().process("l").getDirection());
     }
 
     @Test public void turnRightTwice() {
-        assertEquals("South", newDrone().process("rr").getBearing());
+        assertEquals("South", newDrone().process("rr").getDirection());
     }
 
     @Test public void turnRightFourTimes() {
-        assertEquals("North", newDrone().process("rrrr").getBearing());
+        assertEquals("North", newDrone().process("rrrr").getDirection());
     }
 
     @Test public void turnBothWays() {
-        assertEquals("West", newDrone().process("llr").getBearing());
+        assertEquals("West", newDrone().process("llr").getDirection());
     }
 
     @Test public void turnRightWhileMoving() {
-        assertEquals("East", newDrone().process("ir").getBearing());
+        assertEquals("East", newDrone().process("ir").getDirection());
     }
 
     @Test public void  turnAfterRetract(){
-        assertEquals("East", newDrone().process("idfr").getBearing());
+        assertEquals("East", newDrone().process("idfr").getDirection());
     }
 
     @Test public void cannotDeployProbeWhileStatic() {

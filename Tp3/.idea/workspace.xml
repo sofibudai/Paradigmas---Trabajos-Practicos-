@@ -5,14 +5,23 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="2227a94b-bdde-432f-b17e-82b274005112" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/axiom/East.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/axiom/North.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/axiom/South.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/axiom/West.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/axiom/Axiom.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/axiom/Axiom.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Class" />
+      </list>
+    </option>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
@@ -33,6 +42,9 @@
   &quot;associatedIndex&quot;: 3
 }</component>
   <component name="ProjectId" id="2gZO0joOcloxKPxOdoi5IuMBRQJ" />
+  <component name="ProjectLevelVcsManager">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
@@ -99,7 +111,9 @@
       <workItem from="1715901414643" duration="864000" />
       <workItem from="1716063332863" duration="166000" />
       <workItem from="1716064060298" duration="611000" />
-      <workItem from="1716237401321" duration="768000" />
+      <workItem from="1716237401321" duration="1026000" />
+      <workItem from="1716239638001" duration="3140000" />
+      <workItem from="1716246430218" duration="1397000" />
     </task>
     <servers />
   </component>

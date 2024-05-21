@@ -5,8 +5,7 @@ import java.util.List;
 
 public class Axiom {
     private Speed speed = new Speed();
-    private Roseta roseta = new Roseta();
-    private String bearing = roseta.getCurrentDirection();
+    public Direction direction = new Direction.North();
     private Probe probe = new Probe();
 
     private static final List<Command> commands = Arrays.asList(
@@ -22,16 +21,12 @@ public class Axiom {
         return speed;
     }
 
-    public String getBearing() {
-        return bearing;
+    public String getDirection() {
+        return direction.getDirection();
     }
 
-    public void setBearing(String bearing) {
-        this.bearing = bearing;
-    }
-
-    public Roseta getRoseta() {
-        return roseta;
+    public void setDirection(Direction direction) {
+        this.direction = direction;
     }
 
     public Probe getProbe() {
