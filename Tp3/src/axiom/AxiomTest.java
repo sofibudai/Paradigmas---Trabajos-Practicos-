@@ -53,15 +53,15 @@ public  class AxiomTest {
     }
 
     @Test public void cannotDeployProbeWhileStatic() {
-        assertThrowsLike("Cannot deploy probe while static",AssertionError.class, () -> newDrone().process("d"));
+        assertThrowsLike(DeployCommand.probeError,AssertionError.class, () -> newDrone().process("d"));
     }
 
     @Test public void cannotTurnWhileProbeIsDeployed() {
-        assertThrowsLike("Cannot turn while probe is deployed",AssertionError.class, () -> newDrone().process("idr"));
+        assertThrowsLike(TurnRightCommand.turnError,AssertionError.class, () -> newDrone().process("idr"));
     }
 
     @Test public void cannotStopWhileProbeIsDeployed() {
-        assertThrowsLike("Cannot stop while probe is deployed",AssertionError.class, () -> newDrone().process("ids"));
+        assertThrowsLike(DecreaseSpeedCommand.stopError,AssertionError.class, () -> newDrone().process("ids"));
     }
 
     @Test public void increaseSpeedWhileProbeIsDeployed() {

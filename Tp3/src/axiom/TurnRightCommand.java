@@ -1,7 +1,7 @@
 package axiom;
 
 public class TurnRightCommand extends Command {
-    public static final String turn = "turn";
+    public static final String turnError = "Cannot turn while probe is deployed";
     public final char identifier = 'r';
 
     @Override
@@ -11,7 +11,7 @@ public class TurnRightCommand extends Command {
 
     @Override
     public void execute(Axiom axiom) {
-        axiom.getProbe().checkIfDeployed(turn);
+        axiom.getProbe().checkIfDeployed(turnError);
         axiom.setDirection(axiom.direction.turnRight());
     }
 }
