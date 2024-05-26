@@ -1,6 +1,12 @@
 package axiom;
 
 public abstract class Direction {
+
+    public static final String north = "North";
+    public static final String south = "South";
+    public static final String east = "East";
+    public static final String west = "West";
+
     public abstract Direction turnLeft();
     public abstract Direction turnRight();
     public abstract String getDirection();
@@ -15,7 +21,7 @@ public abstract class Direction {
         }
 
         public String getDirection() {
-            return "North";
+            return north;
         }
     }
 
@@ -29,7 +35,7 @@ public abstract class Direction {
         }
 
         public String getDirection() {
-            return "South";
+            return south;
         }
     }
 
@@ -43,7 +49,7 @@ public abstract class Direction {
         }
 
         public String getDirection() {
-            return "East";
+            return east;
         }
     }
 
@@ -57,7 +63,7 @@ public abstract class Direction {
         }
 
         public String getDirection() {
-            return "West";
+            return west;
         }
     }
 

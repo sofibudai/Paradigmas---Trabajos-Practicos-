@@ -21,35 +21,35 @@ public  class AxiomTest {
     }
 
     @Test public void indicatesBearing(){
-        assertEquals("North", newDrone().getDirection());
+        assertEquals(Direction.north, newDrone().getDirection());
     }
 
     @Test public void turnRight() {
-        assertEquals( "East", newDrone().process("r").getDirection());
+        assertEquals( Direction.east, newDrone().process("r").getDirection());
     }
 
     @Test public void turnLeft() {
-        assertEquals("West", newDrone().process("l").getDirection());
+        assertEquals(Direction.west, newDrone().process("l").getDirection());
     }
 
     @Test public void turnRightTwice() {
-        assertEquals("South", newDrone().process("rr").getDirection());
+        assertEquals(Direction.south, newDrone().process("rr").getDirection());
     }
 
     @Test public void turnRightFourTimes() {
-        assertEquals("North", newDrone().process("rrrr").getDirection());
+        assertEquals(Direction.north, newDrone().process("rrrr").getDirection());
     }
 
     @Test public void turnBothWays() {
-        assertEquals("West", newDrone().process("llr").getDirection());
+        assertEquals(Direction.west, newDrone().process("llr").getDirection());
     }
 
     @Test public void turnRightWhileMoving() {
-        assertEquals("East", newDrone().process("ir").getDirection());
+        assertEquals(Direction.east, newDrone().process("ir").getDirection());
     }
 
     @Test public void  turnAfterRetract(){
-        assertEquals("East", newDrone().process("idfr").getDirection());
+        assertEquals(Direction.east, newDrone().process("idfr").getDirection());
     }
 
     @Test public void cannotDeployProbeWhileStatic() {
@@ -69,7 +69,7 @@ public  class AxiomTest {
     }
 
     @Test public void executeNonExistentCommand() {
-        assertThrowsLike("Unknown command: x",IllegalArgumentException.class, () -> newDrone().process("ix"));
+        assertThrowsLike('x', IllegalArgumentException.class, () -> newDrone().process("ix"));
     }
 
     @Test public void variousSameCommands(){
@@ -78,6 +78,9 @@ public  class AxiomTest {
 
     private void assertThrowsLike(String message, Class<? extends Throwable> expectedType, Executable codeBlock) {
         assertEquals(message, assertThrows(expectedType, codeBlock).getMessage());
+    }
+    private void assertThrowsLike(char command, Class<? extends Throwable> expectedType, Executable codeBlock) {
+        assertEquals(Axiom.getUnknownCommand(command), assertThrows(expectedType, codeBlock).getMessage());
     }
 
     private axiom.Axiom newDrone(){

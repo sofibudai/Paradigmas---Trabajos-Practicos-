@@ -4,6 +4,9 @@ import java.util.Arrays;
 import java.util.List;
 
 public class Axiom {
+    public static String getUnknownCommand(char parameter) {
+        return "Unknown command: " + parameter;
+    }
     private Speed speed = new Speed();
     public Direction direction = new Direction.North();
     private Probe probe = new Probe();
@@ -44,7 +47,7 @@ public class Axiom {
         commands.stream()
                 .filter(command -> command.getIdentifier() == parameter)
                 .findFirst()
-                .orElseThrow(() -> new IllegalArgumentException("Unknown command: " + parameter))
+                .orElseThrow(() -> new IllegalArgumentException(getUnknownCommand(parameter)))
                 .execute(this);
     }
 }

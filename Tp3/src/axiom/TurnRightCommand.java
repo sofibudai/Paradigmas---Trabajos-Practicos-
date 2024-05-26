@@ -1,7 +1,8 @@
 package axiom;
 
 public class TurnRightCommand extends Command {
-    private final char identifier = 'r';
+    public static final String turn = "turn";
+    public final char identifier = 'r';
 
     @Override
     public char getIdentifier() {
@@ -10,7 +11,7 @@ public class TurnRightCommand extends Command {
 
     @Override
     public void execute(Axiom axiom) {
-        axiom.getProbe().checkIfDeployed("turn");
+        axiom.getProbe().checkIfDeployed(turn);
         axiom.setDirection(axiom.direction.turnRight());
     }
 }

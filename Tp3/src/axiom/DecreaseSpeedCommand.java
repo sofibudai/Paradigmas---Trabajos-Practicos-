@@ -1,10 +1,11 @@
 package axiom;
 
 public class DecreaseSpeedCommand extends Command {
-    private final char identifier = 'r';
+    public static final String stop = "stop";
+    public final char identifier = 's';
 
     public void execute(Axiom axiom) {
-        axiom.getProbe().checkIfDeployed("stop");
+        axiom.getProbe().checkIfDeployed(stop);
         axiom.getSpeed().decrease();
     }
     public char getIdentifier() {
