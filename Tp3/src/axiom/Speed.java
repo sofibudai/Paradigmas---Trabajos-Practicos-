@@ -12,7 +12,7 @@ public class Speed {
     }
 
     private int calculateDecreasedValue() {
-        return (this.value > 0) ? this.value - 1 : 0;
+        return Math.max(0, this.value - 1);
     }
 
     public int getValue() {
@@ -22,5 +22,3 @@ public class Speed {
         assert value != 0: action;
     }
 }
-
-
