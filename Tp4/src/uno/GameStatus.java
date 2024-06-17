@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class GameStatus {
+
     private List<PlayerStatus> playerStatuses;
     private int currentPlayerIndex = 0;
     private boolean gameOver = false;

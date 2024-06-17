@@ -13,8 +13,8 @@ public class UnoTest {
 
     private UnoTest() {
         this.deck.add(new Card("Red", "1"));
-        this.deck.add(new Card("Blue", "3"));
-        this.deck.add(new Card("Yellow", "1"));
+        this.deck.add(new Card("Yellow", "3"));
+        this.deck.add(new Card("Red", "1"));
         this.deck.add(new Card("Green", "1"));
         this.deck.add(new Card("Red", "2"));
         this.deck.add(new Card("Blue", "8"));
@@ -36,25 +36,23 @@ public class UnoTest {
 
     @Test public void gameStartsCorrectly(){
         UnoGame game = this.validGame();
-        Card expectedCard = new Card("Yellow", "2");
         Card actualCard = game.firstPitCard();
-
-        assertColorAndNumber(expectedCard, actualCard);
+        Card expectedCard = new Card("Yellow", "2");
+        assertColor(expectedCard, actualCard);
     }
 
-    @Test public void playerThrowsCard(){
+    @Test public void playerPlaysCard(){
         UnoGame game = this.validGame();
-        game.playCard("Player1", new Card("Yellow","2"));
-        Card expectedCard = new Card("Yellow","2");
+        game.playCard("Player1", new Card("Yellow","3"));
+        Card expectedCard = new Card("Yellow","3");
         Card actualCard = game.firstPitCard();
-
-        assertColorAndNumber(expectedCard, actualCard);
+        assertColor(expectedCard, actualCard);
     }
 
     @Test public void cannotPlayCard(){
         UnoGame game = this.validGame();
-        assertThrowsLike("Cannot play this card", IllegalArgumentException.class, () -> game.playCard("Player1", new Card("Blue", "3")));
-        }
+        assertThrowsLike("Cannot play this card", IllegalArgumentException.class, () -> game.playCard("Player1", new Card("Red", "1")));
+    }
 
 
 
@@ -65,8 +63,11 @@ public class UnoTest {
         return new UnoGame(players, deck);
     }
 
-    private void assertColorAndNumber(Card expectedCard, Card actualCard) {
+    private void assertColor(Card expectedCard, Card actualCard) {
         assertEquals(expectedCard.getColor(), actualCard.getColor());
+
+    }
+    private void asserNumber(Card expectedCard, Card actualCard) {
         assertEquals(expectedCard.getNumber(), actualCard.getNumber());
     }
 

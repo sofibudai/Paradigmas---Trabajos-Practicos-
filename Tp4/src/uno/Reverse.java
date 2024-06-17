@@ -2,8 +2,8 @@ package uno;
 
 public class Reverse extends Card{
 
-    public Reverse(String color) {
-        super(color);
+    public Reverse(String color, String action) {
+        super(color, action);
     }
     public boolean goesOnTopReverse(Card pitCard){
         return true;

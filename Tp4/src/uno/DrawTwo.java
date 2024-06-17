@@ -1,8 +1,8 @@
 package uno;
 
 public class DrawTwo extends Card{
-    public DrawTwo(String color) {
-        super(color);
+    public DrawTwo(String color, String action) {
+        super(color, action);
     }
 
     public boolean goesOnTopDrawTwo(Card pitCard){
@@ -10,8 +10,9 @@ public class DrawTwo extends Card{
     }
 
     public boolean goesOnTop(Card pitCard) {
-        return getColor().equals(pitCard.getColor())|| goesOnTopDrawTwo(pitCard);
+        return getColor().equals(pitCard.getColor()) || goesOnTopDrawTwo(pitCard);
     }
+
 
 }
 

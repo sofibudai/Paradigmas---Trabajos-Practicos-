@@ -39,57 +39,32 @@ public class UnoGame {
         gameStatus = new GameStatus(playerStatuses);
     }
 
-
     public Card firstPitCard() {
         return pit.get(0);
-    }
-
-    public void drawCard(String player) {
-        playerCards.get(player).add(deck.remove(0));
     }
 
     public boolean playableCard(Card card) {
         return card.goesOnTop(firstPitCard());
     }
 
-
-    public boolean hasPlayableCard(String player){
-        if (playerDeck(player).stream().anyMatch(this::playableCard)) {
-            return true;
-        } else {
-            drawCard(player);
-            return playerDeck(player).stream().anyMatch(this::playableCard);
+    public boolean hasPlayableCard(String player, Card card) {
+        if (!card.checkCard(card, playerDeck(player))) {
+            throw new IllegalArgumentException("Player does not have this card");
         }
+        return true;
     }
 
     public void playCard(String player, Card card) {
         gameStatus.isCurrentPlayerTurn(players.indexOf(player));
-        hasPlayableCard(player);
+        hasPlayableCard(player, card);
+        playableCard(card);
         playerDeck(player).remove(card);
         pit.add(0, card);
         gameStatus.checkGameOver(playerDeck(player));
         gameStatus.nextTurn();
-
-        }
     }
+}
+
+//le pido jugar una carta, si no la tiene, error "cannot play this card"
 
 
-
-
-
-// public void playCard(String player, Card card) {
-//        if (!gameStatus.isCurrentPlayerTurn(players.indexOf(player))) {
-//            drawCard(player);
-//            gameStatus.nextTurn();
-//            return;
-//        }
-//
-//
-//        if (hasPlayableCard(player)) {
-//            playerDeck(player).remove(card);
-//            pit.add(0, card);
-//            if (playerDeck(player).isEmpty()) {
-//                gameStatus.setGameOver(true);
-//            }
-//            gameStatus.nextTurn();
-//}
