@@ -3,15 +3,18 @@ package uno;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 public class UnoGame {
+    public static final String PlayerDoesNotHaveThisCard = "Player does not have this card";
     List<Card> deck;
     List<String> players;
     List<Card> pit = new ArrayList<>();
     HashMap<String, List<Card>> playerCards = new HashMap<>();
     GameStatus gameStatus;
 
-    private List<Card> playerDeck(String player) {
+    public List<Card> playerDeck(String player) {
         return playerCards.get(player);
     }
 
@@ -25,16 +28,15 @@ public class UnoGame {
         if (players.size() < 2) {
             throw new IllegalArgumentException("Cannot play with less than two players");
         }
-        List<PlayerStatus> playerStatuses = new ArrayList<>();
-        for (String player : players) {
-            List<Card> playerDeck = new ArrayList<>();
-            for (int i = 0; i < 3; i++) {
-                playerDeck.add(deck.remove(0));
-            }
-            playerCards.put(player, playerDeck);
-            playerStatuses.add(new PlayerStatus());
 
-        }
+        List<PlayerStatus> playerStatuses = players.stream().map(player -> {
+            List<Card> playerDeck = IntStream.range(0, 6)
+                    .mapToObj(i -> deck.remove(0))
+                    .collect(Collectors.toList());
+            playerCards.put(player, playerDeck);
+            return new PlayerStatus(player);
+        }).collect(Collectors.toList());
+
         pit.add(deck.remove(0));
         gameStatus = new GameStatus(playerStatuses);
     }
@@ -43,28 +45,31 @@ public class UnoGame {
         return pit.get(0);
     }
 
-    public boolean playableCard(Card card) {
-        return card.goesOnTop(firstPitCard());
+    public boolean checkCard(Card card, List<Card> playerCards) {
+        return playerCards.stream().anyMatch(c -> c.equals(card));
     }
 
     public boolean hasPlayableCard(String player, Card card) {
-        if (!card.checkCard(card, playerDeck(player))) {
-            throw new IllegalArgumentException("Player does not have this card");
+        if (!checkCard(card, playerDeck(player))) {
+            throw new IllegalArgumentException(PlayerDoesNotHaveThisCard);
         }
         return true;
     }
 
-    public void playCard(String player, Card card) {
-        gameStatus.isCurrentPlayerTurn(players.indexOf(player));
+    public void playCard(String player , Card card) {
+        gameStatus.checkIfIsPlayerTurn(player);
         hasPlayableCard(player, card);
-        playableCard(card);
-        playerDeck(player).remove(card);
-        pit.add(0, card);
+        card.cardAction(this, player, card);
+
+        if (playerDeck(player).size() == 1) {
+            if (!card.calloutUNO) {
+                playerDeck(player).add(deck.remove(0));
+            }
+        }
         gameStatus.checkGameOver(playerDeck(player));
-        gameStatus.nextTurn();
+        gameStatus.nextTurn(gameStatus.getCurrentPlayerName());
     }
 }
 
-//le pido jugar una carta, si no la tiene, error "cannot play this card"
 
 
